@@ -1,34 +1,37 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Box from './components/Box'
+import { ToDoList } from './components/ToDoList'
 
+const STORE_KEY = 'TO_DO_APP'
 function App() {
-  const [count, setCount] = useState(0)
+  const [toDoList, setToDoList] = useState(() => {
+    let list = localStorage.getItem(STORE_KEY)
+    if(list) {
+      return JSON.parse(list)
+    }
+    return []
+  })
 
+  const onAdd = (name) => {
+    const task = {
+      id: Date.now(),
+      name,
+      isCompleted: false
+    }
+    setToDoList([...toDoList,task])
+  }
+
+  const onCompleted = (id) => {
+    let task = toDoList.find(e => e.id === id)
+    if(task) {
+      task.isCompleted = true;
+      setToDoList([...toDoList])
+    }
+  }
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <ToDoList toDoList={toDoList} onAdd={onAdd} onCompleted={onCompleted}/>
+    </> 
   )
 }
 
