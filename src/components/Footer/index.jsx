@@ -53,9 +53,9 @@ export default function Footer() {
           <div className="flex gap-2">
             2020 spacedev.vn
             <div className="select flex gap-1 cursor-pointer items-center">
-              <img width={15} src="./img/icon-lang.svg" alt="" />
+              <img width={15} src="/img/icon-lang.svg" alt="" />
               Tiếng Việt
-              <img src="./img/nav-caret.svg" style={{ marginTop: 13 }} />
+              <img src="/img/nav-caret.svg" style={{ marginTop: 13 }} />
             </div>
           </div>
           <p>Được thiết kế và lập trình bởi Spacedev Team</p>

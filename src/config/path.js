@@ -1,9 +1,11 @@
 const PROFILE_PATH = '/profile'
+const COURSE_PATH = '/course'
 
 export const PATH = {
     home: '/',
     team: '/team',
-    course: '/course',
+    course: COURSE_PATH,
+    courseDetail: COURSE_PATH + '/:slug-id:id',
     project: '/project',
     coin: '/coin',
     payment: '/payment',
@@ -12,6 +14,7 @@ export const PATH = {
     signin: '/signin',
     signup: '/signup',
     resetPassword: '/reset-password',
+    register: '/register',
     profile: {
         index:  PROFILE_PATH,
         course: PROFILE_PATH + '/course',

@@ -1,6 +1,5 @@
 import {Route, Routes} from 'react-router-dom'
 import ContactPage from './pages/contact'
-import RegisterPage from './pages/register'
 // import { Form } from 'react-router-dom'
 import CoursePage from './pages/course'
 import HomePage from './pages'
@@ -22,6 +21,8 @@ import Payment from './pages/profile/payment'
 import OldCourse from './pages/profile/old-course'
 import MainLayout from './layouts/MainLayout'
 import { PATH } from './config/path'
+import CourseDetail from './pages/course/[slug]'
+import RegisterPage from './pages/register'
 
 function App() {
   return (
@@ -30,8 +31,12 @@ function App() {
       <Route element={<MainLayout/>}>
         <Route index element={<HomePage/>}/>
         <Route path={PATH.contact} element={<ContactPage/>}/>
-        <Route path={PATH.course} element={<CoursePage/>}/>
+        <Route path={PATH.course}>
+            <Route index element={<CoursePage/>}/>
+            <Route path={PATH.courseDetail} element={<CourseDetail/>}/>
+        </Route>
         <Route path={PATH.team} element={<TeamPage/>}/>
+        <Route path={PATH.register} element={<RegisterPage/>}/>
         <Route path={PATH.project} element={<ProjectPage/>}/>
         <Route path={PATH.faq} element={<FAQPage/>}/>
         <Route path={PATH.payment} element={<PaymentPage/>}/>
