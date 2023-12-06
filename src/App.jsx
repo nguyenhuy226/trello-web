@@ -1,12 +1,7 @@
-import { useState } from 'react'
 import {Route, Routes} from 'react-router-dom'
-import Box from './components/Box'
-import { ToDoList } from './components/ToDoList'
 import ContactPage from './pages/contact'
-import Header from './components/Header'
-import Footer from './components/Footer'
 import RegisterPage from './pages/register'
-import { Form } from 'react-router-dom'
+// import { Form } from 'react-router-dom'
 import CoursePage from './pages/course'
 import HomePage from './pages'
 import TeamPage from './pages/team'
@@ -18,55 +13,43 @@ import SignInPage from './pages/signin'
 import SignUpPage from './pages/signup'
 import ResetPasswordPage from './pages/reset-password'
 import Page404 from './pages/404'
+import ProfilePage from './pages/profile'
+import ProfileLayout from './layouts/ProfileLayout'
+import MyCourse from './pages/profile/course'
+import MyCoin from './pages/profile/coin'
+import MyProject from './pages/profile/project'
+import Payment from './pages/profile/payment'
+import OldCourse from './pages/profile/old-course'
+import MainLayout from './layouts/MainLayout'
+import { PATH } from './config/path'
 
-// todoapp mini
-// const STORE_KEY = 'TO_DO_APP'
-//   const [toDoList, setToDoList] = useState(() => {
-//     let list = localStorage.getItem(STORE_KEY)
-//     if(list) {
-//       return JSON.parse(list)
-//     }
-//     return []
-//   })
-
-//   const onAdd = (name) => {
-//     const task = {
-//       id: Date.now(),
-//       name,
-//       isCompleted: false
-//     }
-//     setToDoList([...toDoList,task])
-//   }
-
-//   const onCompleted = (id) => {
-//     let task = toDoList.find(e => e.id === id)
-//     if(task) {
-//       task.isCompleted = true;
-//       setToDoList([...toDoList])
-//     }
-//   }
 function App() {
   return (
-    // <>
-    //   <ToDoList toDoList={toDoList} onAdd={onAdd} onCompleted={onCompleted}/>
-    // </>
-    <>
-    <Header/>
+    <>  
     <Routes>
-      <Route path='/' element={<HomePage/>}/>
-      <Route path='/Contact' element={<ContactPage/>}/>
-      <Route path='/course' element={<CoursePage/>}/>
-      <Route path='/team' element={<TeamPage/>}/>
-      <Route path='/project' element={<ProjectPage/>}/>
-      <Route path='/faq' element={<FAQPage/>}/>
-      <Route path='/payment' element={<PaymentPage/>}/>
-      <Route path='/coin' element={<CoinPage/>}/>
-      <Route path='/signin' element={<SignInPage/>}/>
-      <Route path='/signup' element={<SignUpPage/>}/>
-      <Route path='/reset-password' element={<ResetPasswordPage/>}/>
-      <Route path='*' element={<Page404/>}/>
+      <Route element={<MainLayout/>}>
+        <Route index element={<HomePage/>}/>
+        <Route path={PATH.contact} element={<ContactPage/>}/>
+        <Route path={PATH.course} element={<CoursePage/>}/>
+        <Route path={PATH.team} element={<TeamPage/>}/>
+        <Route path={PATH.project} element={<ProjectPage/>}/>
+        <Route path={PATH.faq} element={<FAQPage/>}/>
+        <Route path={PATH.payment} element={<PaymentPage/>}/>
+        <Route path={PATH.coin} element={<CoinPage/>}/>
+        <Route path={PATH.signin} element={<SignInPage/>}/>
+        <Route path={PATH.signup} element={<SignUpPage/>}/>
+        <Route path={PATH.resetPassword} element={<ResetPasswordPage/>}/>
+        <Route path={PATH.profile.index} element={<ProfileLayout/>}>
+          <Route index element={<ProfilePage/>}/>
+          <Route path={PATH.profile.course} element={<MyCourse/>}/>
+          <Route path={PATH.profile.coin} element={<MyCoin/>}/>
+          <Route path={PATH.profile.project} element={<MyProject/>}/>
+          <Route path={PATH.profile.payment} element={<Payment/>}/>
+          <Route path={PATH.profile.oldCourse} element={<OldCourse/>}/>
+        </Route>
+        <Route path='*' element={<Page404/>}/>
+      </Route>
     </Routes>
-    <Footer/>
     </>
   )
 }
