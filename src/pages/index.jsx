@@ -1,5 +1,5 @@
-import React from 'react'
-import ListCourse from '../components/ListCourse'
+import React from "react";
+import ListCourse from "../components/ListCourse";
 
 export default function HomePage() {
   return (
@@ -11,17 +11,21 @@ export default function HomePage() {
               <div className="content">
                 <h2 className="title">
                   Điều quan trọng không phải là{" "}
-                  <span style={{ color: "rgb(229, 57, 53)" }}>vị trí đứng</span> mà
-                  là <span style={{ color: "rgb(63, 81, 181)" }}>hướng đi</span>
+                  <span style={{ color: "rgb(229, 57, 53)" }}>vị trí đứng</span>{" "}
+                  mà là{" "}
+                  <span style={{ color: "rgb(63, 81, 181)" }}>hướng đi</span>
                 </h2>
-                <a href="https://spacedev.vn/roadmap" className="btn main round">
+                <a
+                  href="https://spacedev.vn/roadmap"
+                  className="btn main round"
+                >
                   Roadmap
                 </a>
               </div>
             </div>
             <div className="jarallax-img">
               <img src="/img/banner1.jpg" alt="" />
-            </div>  
+            </div>
           </div>
           <div className="item">
             <div className="container">
@@ -52,9 +56,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        {
-          <ListCourse/>
-        }
+        {<ListCourse />}
         <section className="section-different">
           <div className="container">
             <div className="row">
@@ -74,8 +76,8 @@ export default function HomePage() {
                 <div className="item" style={{ marginTop: 35 }}>
                   <h4>Sáng tạo và đơn giản</h4>
                   <p>
-                    Spacedev đề cao những sáng tạo đơn giản thay đổi thế giới, gia
-                    tăng năng suất và cải thiện cuộc sống.
+                    Spacedev đề cao những sáng tạo đơn giản thay đổi thế giới,
+                    gia tăng năng suất và cải thiện cuộc sống.
                   </p>
                 </div>
               </div>
@@ -83,28 +85,30 @@ export default function HomePage() {
                 <div className="item">
                   <h4>Tập trung vào khách hàng</h4>
                   <p>
-                    Spacedev được tạo ra với mục tiêu cao nhất giúp cho việc học trở
-                    nên dễ dàng hơn và kiến thức thật sự ý nghĩa. Những học viên là
-                    đối tượng phục vụ của spacedev vì thế những yêu cầu chính đáng
-                    của học viên sẽ được nền tảng tiếp thu và cải thiện.
+                    Spacedev được tạo ra với mục tiêu cao nhất giúp cho việc học
+                    trở nên dễ dàng hơn và kiến thức thật sự ý nghĩa. Những học
+                    viên là đối tượng phục vụ của spacedev vì thế những yêu cầu
+                    chính đáng của học viên sẽ được nền tảng tiếp thu và cải
+                    thiện.
                   </p>
                 </div>
                 <div className="item">
                   <h4>Gây dựng lòng tin</h4>
                   <p>
-                    Spacedev luôn trung thực với những gì mình phát ngôn cũng như
-                    công bố trên các nền tảng mạng xã hội. Trung thực và giữ chữ tín
-                    với học viên, với đối tác và với những người sáng lập luôn là
-                    tiêu chí hàng đầu giúp nền tảng phát triển bền vững ở hiện tại
-                    và trong tương lai.
+                    Spacedev luôn trung thực với những gì mình phát ngôn cũng
+                    như công bố trên các nền tảng mạng xã hội. Trung thực và giữ
+                    chữ tín với học viên, với đối tác và với những người sáng
+                    lập luôn là tiêu chí hàng đầu giúp nền tảng phát triển bền
+                    vững ở hiện tại và trong tương lai.
                   </p>
                 </div>
                 <div className="item">
                   <h4>Phát triển nhưng không dừng lại</h4>
                   <p>
-                    Bằng việc áp dụng những công nghệ trên nền tảng và sự hoàn thiện
-                    về chức năng là mình chứng rõ nhất cho sự chuyên nghiệp cũng như
-                    sự tận tâm của những người sáng lập nền tảng spacedev.vn.
+                    Bằng việc áp dụng những công nghệ trên nền tảng và sự hoàn
+                    thiện về chức năng là mình chứng rõ nhất cho sự chuyên
+                    nghiệp cũng như sự tận tâm của những người sáng lập nền tảng
+                    spacedev.vn.
                   </p>
                 </div>
               </div>
@@ -147,8 +151,9 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className="content">
-                        Khóa học quá tuyệt vời, đầy đủ kiến thức lại còn được bonus
-                        thêm những kỹ năng tìm lỗi và phỏng vấn khi đi làm nữa
+                        Khóa học quá tuyệt vời, đầy đủ kiến thức lại còn được
+                        bonus thêm những kỹ năng tìm lỗi và phỏng vấn khi đi làm
+                        nữa
                       </div>
                       <div className="bottom">
                         <a href="#" target="_blank">
@@ -168,9 +173,9 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className="content">
-                        Mentor có tâm, tận tình. Mình tìm được hướng đi trong lập
-                        trình front-end qua khóa học. Nơi chọn lựa an tâm cho mọi
-                        người.
+                        Mentor có tâm, tận tình. Mình tìm được hướng đi trong
+                        lập trình front-end qua khóa học. Nơi chọn lựa an tâm
+                        cho mọi người.
                       </div>
                       <div className="bottom">
                         <a href="#" target="_blank">
@@ -190,10 +195,11 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className="content">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        sollicitudin libero id magna finibus, in maximus urna
-                        tincidunt. Nam at leo lacinia, interdum dolor in, molestie
-                        lectus. Aenean porttitor purus at purus euismod tristique
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Sed sollicitudin libero id magna finibus, in maximus
+                        urna tincidunt. Nam at leo lacinia, interdum dolor in,
+                        molestie lectus. Aenean porttitor purus at purus euismod
+                        tristique
                       </div>
                       <div className="bottom">
                         <a href="#" target="_blank">
@@ -348,6 +354,6 @@ export default function HomePage() {
           </div>
         </section>
       </div>
-    </main>  
-  )
+    </main>
+  );
 }
