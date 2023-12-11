@@ -1,6 +1,10 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
+import { PATH } from "../config/path";
 
-export default function ResetPasswordPage() {
+export default function ResetPasswordPage({ user }) {
+  if (user) return <Navigate to={PATH.profile.index} />;
+
   return (
     <main id="main">
       <div className="auth">

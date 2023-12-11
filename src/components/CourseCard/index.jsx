@@ -31,8 +31,8 @@ export default function CourseCard({
             </div>
             <div className="name">Vương Đặng</div>
           </div>
-          <Link to={PATH.register} className="register-btn">
-            6,000,000 đ
+          <Link to={PATH.courseRegister} className="register-btn">
+            {money} đ
           </Link>
         </div>
       </div>

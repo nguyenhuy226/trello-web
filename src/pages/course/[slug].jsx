@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { courseServer } from "../../services/course";
+import { PATH } from "../../config/path";
 
 export default function CourseDetail() {
   const { slugId } = useParams();
@@ -8,7 +9,7 @@ export default function CourseDetail() {
   const [detail, setDetail] = useState(() => {
     return courseServer.getCourseDetail(parseInt(id));
   });
-  console.log(detail);
+
   return (
     <main id="main">
       <div className="course-detail">
@@ -27,13 +28,13 @@ export default function CourseDetail() {
                   <strong>Thời lượng:</strong> 18 buổi
                 </div>
               </div>
-              <a
+              <Link
                 className="btn white round"
                 style={{ "--color-Btn": "#70b6f1" }}
-                href="./register.html"
+                to={`/register/${detail.slug}-${detail.id}`}
               >
                 đăng ký
-              </a>
+              </Link>
             </div>
           </div>
           <div className="bottom">

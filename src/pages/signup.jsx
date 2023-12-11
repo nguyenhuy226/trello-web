@@ -1,6 +1,10 @@
 import React from "react";
+import { PATH } from "../config/path";
+import { Navigate } from "react-router-dom";
 
-export default function SignUpPage() {
+export default function SignUpPage({ user }) {
+  if (user) return <Navigate to={PATH.profile.index} />;
+
   return (
     <main id="main">
       <div className="auth">

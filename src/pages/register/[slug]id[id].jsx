@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { regexp, required, validate } from "../utils/Validate";
-import Field from "../components/Field";
-import { useForm } from "../hooks/useForm";
+import { regexp, required, validate } from "../../utils/Validate";
+import Field from "../../components/Field";
+import { useForm } from "../../hooks/useForm";
+import { useParams } from "react-router-dom";
+import { courseServer } from "../../services/course";
 
 export default function RegisterPage() {
   const { register, validate, values } = useForm({
@@ -32,6 +34,12 @@ export default function RegisterPage() {
     }
   };
 
+  const { slugId } = useParams();
+  const id = slugId.split("-").pop();
+  const [detail, setDetail] = useState(() => {
+    return courseServer.getCourseDetail(parseInt(id));
+  });
+
   return (
     <main id="main">
       {isSuccess ? (
@@ -58,7 +66,7 @@ export default function RegisterPage() {
           <div className="container">
             <div className="wrap container">
               <div className="main-sub-title">ĐĂNG KÝ</div>
-              <h1 className="main-title">Thực chiến Reactjs Advanced </h1>
+              <h1 className="main-title">{detail.title}</h1>
               <div className="main-info">
                 <div className="date">
                   <strong>Khai giảng:</strong> 15/11/2020
@@ -67,7 +75,8 @@ export default function RegisterPage() {
                   <strong>Thời lượng:</strong> 18 buổi
                 </div>
                 <div className="time">
-                  <strong>Học phí:</strong> 6,000,000 VND
+                  <strong>Học phí:</strong>
+                  {detail.money} VND
                 </div>
               </div>
               <div className="form">

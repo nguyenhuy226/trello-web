@@ -150,6 +150,6 @@ export const courseServer = {
     return courses;
   },
   getCourseDetail(id) {
-    return courses.find((e) => (e.id = id));
+    return courses.find((e) => e.id === id);
   },
 };

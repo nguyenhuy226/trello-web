@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { PATH } from "../../config/path";
 
-export default function Header() {
+export default function Header({ user, logout }) {
+  const _logout = (ev) => {
+    ev.preventDefault();
+    logout();
+  };
   return (
     <>
       <header id="header">
@@ -20,26 +24,35 @@ export default function Header() {
             <h1>Spacedev</h1>
           </Link>
           <div className="right">
-            <div className="have-login">
-              <div className="account">
-                <Link to={PATH.profile.index} className="info">
-                  <div className="name">Đặng Thuyền Vương</div>
-                  <div className="avatar">
-                    <img src="/img/avt.png" alt="" />
-                  </div>
+            {user ? (
+              <div className="have-login">
+                <div className="account">
+                  <Link to={PATH.profile.index} className="info">
+                    <div className="name">Đặng Thuyền Vương</div>
+                    <div className="avatar">
+                      <img src="/img/avt.png" alt="" />
+                    </div>
+                  </Link>
+                </div>
+                <div className="hamberger"></div>
+                <div className="sub">
+                  <Link to={PATH.course}>Khóa học của tôi</Link>
+                  <Link to={PATH.profile.index}>Thông tin tài khoản</Link>
+                  <a onClick={_logout} href="#">
+                    Đăng xuất
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="not-login bg-none">
+                <Link to={PATH.signin} className="btn-register">
+                  Đăng nhập
+                </Link>
+                <Link to={PATH.signup} className="btn main btn-open-login">
+                  Đăng ký
                 </Link>
               </div>
-              <div className="hamberger"></div>
-              <div className="sub">
-                <Link to={PATH.course}>Khóa học của tôi</Link>
-                <Link to={PATH.profile.index}>Thông tin tài khoản</Link>
-                <a href="#">Đăng xuất</a>
-              </div>
-            </div>
-            {/* <div class="not-login bg-none">
-                <a href="#" class="btn-register">Đăng nhập</a>
-                <a href="login.html" class="btn main btn-open-login">Đăng ký</a>
-            </div> */}
+            )}
           </div>
         </div>
         <div className="progress" />
