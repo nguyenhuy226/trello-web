@@ -147,7 +147,8 @@ const courses = [
 
 export const courseServer = {
   getCourse() {
-    return courses;
+    // return courses;
+    return fetch("https://course.spacedev.vn/elearning/v4/courses");
   },
   getCourseDetail(id) {
     return courses.find((e) => e.id === id);

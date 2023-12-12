@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { courseServer } from "../../services/course";
 import CourseCard from "../CourseCard";
 
 export default function ListCourse() {
-  const [courses, setCourses] = useState(() => {
-    return courseServer.getCourse();
-  });
+  const [courses, setCourses] = useState([]);
+  useEffect(() => {
+    courseServer
+      .getCourse()
+      .then((res) => res.json())
+      .then((data) => {
+        setCourses(data.data);
+      });
+  }, []);
   return (
     <section className="section-1">
       <div className="container">

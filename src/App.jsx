@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useRoutes } from "react-router-dom";
 import ContactPage from "./pages/contact";
 // import { Form } from 'react-router-dom'
 import CoursePage from "./pages/course";
@@ -26,6 +26,7 @@ import RegisterPage from "./pages/register/[slug]id[id]";
 import { useEffect, useState } from "react";
 import PrivateRouter from "./components/PrivateRouter";
 import AuthRouter from "./components/AuthRouter";
+import { routes } from "./routes";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -48,8 +49,10 @@ function App() {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
+  // const element = useRoutes(routes(user, login, logout));
   return (
     <>
+      {/* {element} */}
       <Routes>
         <Route element={<MainLayout user={user} logout={logout} />}>
           <Route index element={<HomePage />} />
