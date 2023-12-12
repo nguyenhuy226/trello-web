@@ -1,3 +1,5 @@
+import { COURSE_API } from "../config/api";
+
 const courses = [
   {
     id: 17,
@@ -148,9 +150,13 @@ const courses = [
 export const courseServer = {
   getCourse() {
     // return courses;
-    return fetch("https://course.spacedev.vn/elearning/v4/courses");
+    return fetch(`${COURSE_API}/courses`);
   },
   getCourseDetail(id) {
     return courses.find((e) => e.id === id);
+  },
+  getRelative(id) {
+    const start = Math.floor(Math.random() * (courses.length - 3));
+    return courses.filter((e) => e.id !== id).slice(start, start + 3);
   },
 };

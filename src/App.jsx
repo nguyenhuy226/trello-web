@@ -27,6 +27,7 @@ import { useEffect, useState } from "react";
 import PrivateRouter from "./components/PrivateRouter";
 import AuthRouter from "./components/AuthRouter";
 import { routes } from "./routes";
+import "./assets/css/custom.css";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -49,6 +50,7 @@ function App() {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
+  // sử dụng hook useRoutes trong react-router-dom
   // const element = useRoutes(routes(user, login, logout));
   return (
     <>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { courseServer } from "../services/course";
-import CourseCard from "../components/CourseCard";
+import CourseCard, { CourseCardLoading } from "../components/CourseCard";
+import Skeleton from "../components/Skeleton";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,17 @@ export default function HomePage() {
       .finally(() => {
         setLoading(false);
       });
+    //cách làm bằng async await và có sử dụng try catch để bắt lỗi ==> khi dùng async await trong useEfect thì phải chạy trong hàm chạy liền
+    // (async () => {
+    //   try {
+    //     setLoading(true)
+    //     let res = await courseServer.getCourse()
+    //     res = await res.json()
+    //     setCourses(res.data)
+    //   } finally {
+    //     setLoading(false)
+    //   }
+    // })()
   }, []);
   return (
     <main id="main">
@@ -85,9 +97,11 @@ export default function HomePage() {
               <h2 className="main-title">OFFLINE</h2>
             </div>
             <div className="list row">
-              {courses.map((e) => (
-                <CourseCard key={e.id} {...e} />
-              ))}
+              {loading
+                ? Array.from(Array(6)).map((_, i) => (
+                    <CourseCardLoading key={i} />
+                  ))
+                : courses.map((e) => <CourseCard key={e.id} {...e} />)}
             </div>
             <div className="flex justify-center">
               <a href="./course-list.html" className="btn main">

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { validate } from "../utils/Validate";
 
 export const useForm = (rules) => {
-  const [values, setForm] = useState({});
+  const [values, setValues] = useState({});
   const [errors, setError] = useState({});
 
   const _validate = () => {
@@ -16,14 +16,18 @@ export const useForm = (rules) => {
       error: errors[name],
       value: values[name] || "",
       onChange: (ev) =>
-        setForm({
+        setValues({
           ...values,
           [name]: ev.target.value,
         }),
     };
   };
+  const reset = () => {
+    setValues({});
+  };
   return {
     values,
+    reset,
     errors,
     register,
     validate: _validate,

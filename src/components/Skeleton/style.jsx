@@ -1,5 +1,20 @@
 import styled from "styled-components";
 
-export const SkeletonStyle = styled.div`
+export const SkeletonStyle = styled.span`
   background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  display: inline-block;
+  border-radius: 5px;
+  background-size: 200% 100%;
+  width: 100%;
+  animation: 1.5s shine linear infinite;
+
+  &.circle {
+    border-radius: 100%;
+  }
+  @keyframes shine {
+    to {
+      background-position-x: -200%;
+    }
+  }
 `;
