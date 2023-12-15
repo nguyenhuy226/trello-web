@@ -4,8 +4,11 @@ import Field from "../../components/Field";
 import { useForm } from "../../hooks/useForm";
 import { useParams } from "react-router-dom";
 import { courseServer } from "../../services/course";
+import { useFetch } from "../../hooks/useFetch";
+import Skeleton from "../../components/Skeleton";
 
 export default function RegisterPage() {
+  const { data, loading } = useFetch(() => courseServer.getCourseDetail(id));
   const { register, validate, values } = useForm({
     name: [required("Xin vui lòng nhập họ và tên")],
     email: [
@@ -36,9 +39,95 @@ export default function RegisterPage() {
 
   const { slugId } = useParams();
   const id = slugId.split("-").pop();
-  const [detail, setDetail] = useState(() => {
-    return courseServer.getCourseDetail(parseInt(id));
-  });
+
+  if (loading)
+    return (
+      <section className="register-course">
+        <div className="container">
+          <div className="wrap container">
+            <div className="main-sub-title">ĐĂNG KÝ</div>
+            <h1 className="main-title">
+              <Skeleton height={60} />
+            </h1>
+            <div className="main-info">
+              <div className="date">
+                <strong>Khai giảng:</strong>{" "}
+                <Skeleton width={100} height={26} />
+              </div>
+              <div className="time">
+                <strong>Thời lượng:</strong>{" "}
+                <Skeleton width={100} height={26} />
+              </div>
+              <div className="time">
+                <strong>Học phí:</strong>
+                <Skeleton width={100} height={26} />
+              </div>
+            </div>
+            <div className="form">
+              <Field
+                label="Họ và tên"
+                placeholder="Họ và tên"
+                required
+                {...register("name")}
+              />
+              <Field
+                label="Số điện thoại"
+                placeholder="Số điện thoại"
+                {...register("phone")}
+              />
+              <Field
+                label="Email"
+                placeholder="Địa chỉ email"
+                required
+                {...register("email")}
+              />
+              <Field
+                placeholder="URL Facebook"
+                required
+                label="URL Facebook"
+                {...register("fb")}
+              />
+              <Field
+                label="Sử dụng COIN"
+                {...register("COIN")}
+                renderInput={(props) => (
+                  <div className="checkcontainer">
+                    Hiện có <strong>300 COIN</strong>
+                    {/* Giảm giá còn <span><strong>5.800.000 VND</strong>, còn lại 100 COIN</span> */}
+                    {/* Cần ít nhất 200 COIN để giảm giá */}
+                    <input type="checkbox" {...props} />
+                    <span className="checkmark" />
+                  </div>
+                )}
+              />
+              <Field
+                label="Hình thức thanh toán"
+                renderInput={(props) => (
+                  <div className="select">
+                    <div className="head">Chuyển khoản</div>
+                    <div className="sub">
+                      <a href="#">Chuyển khoản</a>
+                      <a href="#">Thanh toán tiền mặt</a>
+                    </div>
+                  </div>
+                )}
+                {...register("payment")}
+              />
+              <Field
+                placeholder="Mong muốn cá nhân và lịch bạn có thể học."
+                label="Ý kiến cá nhân"
+                {...register("note")}
+              />
+              <button onClick={onSubmit} className="btn main rect">
+                đăng ký
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  let { data: detail } = data;
+  if (!detail) return <div style={{ margin: "100px 0" }}>...Not Found... </div>;
 
   return (
     <main id="main">

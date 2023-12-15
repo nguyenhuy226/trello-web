@@ -6,9 +6,14 @@ export default function Skeleton({
   width,
   height,
   children,
+  ...props
 }) {
   return (
-    <SkeletonStyle className={shap} style={{ width, height }}>
+    <SkeletonStyle
+      {...props}
+      className={`${shap} ${props.className} ?? ''`}
+      style={{ width, height, ...props.style }}
+    >
       {children}
     </SkeletonStyle>
   );

@@ -1,34 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { courseServer } from "../services/course";
 import CourseCard, { CourseCardLoading } from "../components/CourseCard";
-import Skeleton from "../components/Skeleton";
+import { useFetch } from "../hooks/useFetch";
 
 export default function HomePage() {
-  const [loading, setLoading] = useState(true);
-  const [courses, setCourses] = useState([]);
-  useEffect(() => {
-    setLoading(true);
-    courseServer
-      .getCourse()
-      .then((res) => res.json())
-      .then((data) => {
-        setCourses(data.data);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    //cách làm bằng async await và có sử dụng try catch để bắt lỗi ==> khi dùng async await trong useEfect thì phải chạy trong hàm chạy liền
-    // (async () => {
-    //   try {
-    //     setLoading(true)
-    //     let res = await courseServer.getCourse()
-    //     res = await res.json()
-    //     setCourses(res.data)
-    //   } finally {
-    //     setLoading(false)
-    //   }
-    // })()
-  }, []);
+  const { data: courses, loading } = useFetch(() =>
+    courseServer.getCourse("?limit=6")
+  );
+  // const [loading, setLoading] = useState(true);
+  // const [courses, setCourses] = useState([]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   courseServer
+  //     .getCourse()
+  //     //sử dụng khi dùng fetch
+  //     // .then((res) => res.json())
+  //     .then((data) => {
+  //       setCourses(data.data);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  //   //cách làm bằng async await và có sử dụng try catch để bắt lỗi ==> khi dùng async await trong useEfect thì phải chạy trong hàm chạy liền
+  //   // (async () => {
+  //   //   try {
+  //   //     setLoading(true)
+  //   //     let res = await courseServer.getCourse()
+  //   //     res = await res.json()
+  //   //     setCourses(res.data)
+  //   //   } finally {
+  //   //     setLoading(false)
+  //   //   }
+  //   // })()
+  // }, []);
   return (
     <main id="main">
       <div className="homepage">
@@ -101,7 +105,7 @@ export default function HomePage() {
                 ? Array.from(Array(6)).map((_, i) => (
                     <CourseCardLoading key={i} />
                   ))
-                : courses.map((e) => <CourseCard key={e.id} {...e} />)}
+                : courses.data.map((e) => <CourseCard key={e.id} {...e} />)}
             </div>
             <div className="flex justify-center">
               <a href="./course-list.html" className="btn main">

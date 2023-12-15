@@ -1,4 +1,5 @@
-import { COURSE_API } from "../config/api";
+import { COURSE_API, api } from "../config/api";
+import axios from "axios";
 
 const courses = [
   {
@@ -148,15 +149,15 @@ const courses = [
 ];
 
 export const courseServer = {
-  getCourse() {
+  getCourse(query = "") {
     // return courses;
-    return fetch(`${COURSE_API}/courses`);
+    return api.get(`${COURSE_API}/courses${query}`);
   },
   getCourseDetail(id) {
-    return courses.find((e) => e.id === id);
+    // return courses.find((e) => e.id === id);
+    return api.get(`${COURSE_API}/courses/${id}`);
   },
   getRelative(id) {
-    const start = Math.floor(Math.random() * (courses.length - 3));
-    return courses.filter((e) => e.id !== id).slice(start, start + 3);
+    return api.get(`${COURSE_API}/courses/related/${id}`);
   },
 };
