@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { PATH } from "../../config/path";
+import { useAuth } from "../AuthContext";
 
-export default function Header({ user, logout }) {
+export default function Header() {
+  const { user, logout } = useAuth();
   const _logout = (ev) => {
     ev.preventDefault();
     logout();
@@ -28,7 +30,7 @@ export default function Header({ user, logout }) {
               <div className="have-login">
                 <div className="account">
                   <Link to={PATH.profile.index} className="info">
-                    <div className="name">Đặng Thuyền Vương</div>
+                    <div className="name">{user.name}</div>
                     <div className="avatar">
                       <img src="/img/avt.png" alt="" />
                     </div>

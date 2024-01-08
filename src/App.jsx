@@ -30,25 +30,25 @@ import { routes } from "./routes";
 import "./assets/css/custom.css";
 
 function App() {
-  const [user, setUser] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem("user"));
-    } catch (error) {
-      return null;
-    }
-  });
-  const login = () => {
-    setUser({
-      name: "Đặng Thuyền Vương",
-      avatar: "/img/avt.png",
-    });
-  };
-  const logout = () => {
-    setUser();
-  };
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user]);
+  // const [user, setUser] = useState(() => {
+  //   try {
+  //     return JSON.parse(localStorage.getItem("user"));
+  //   } catch (error) {
+  //     return null;
+  //   }
+  // });
+  // const login = () => {
+  //   setUser({
+  //     name: "Đặng Thuyền Vương",
+  //     avatar: "/img/avt.png",
+  //   });
+  // };
+  // const logout = () => {
+  //   setUser();
+  // };
+  // useEffect(() => {
+  //   localStorage.setItem("user", JSON.stringify(user));
+  // }, [user]);
 
   // sử dụng hook useRoutes trong react-router-dom
   // const element = useRoutes(routes(user, login, logout));
@@ -56,7 +56,7 @@ function App() {
     <>
       {/* {element} */}
       <Routes>
-        <Route element={<MainLayout user={user} logout={logout} />}>
+        <Route element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path={PATH.contact} element={<ContactPage />} />
           <Route path={PATH.course}>
@@ -69,14 +69,12 @@ function App() {
           <Route path={PATH.faq} element={<FAQPage />} />
           <Route path={PATH.payment} element={<PaymentPage />} />
           <Route path={PATH.coin} element={<CoinPage />} />
-          <Route
-            element={<AuthRouter user={user} redirect={PATH.profile.index} />}
-          >
-            <Route path={PATH.signin} element={<SignInPage login={login} />} />
+          <Route element={<AuthRouter redirect={PATH.profile.index} />}>
+            <Route path={PATH.signin} element={<SignInPage />} />
             <Route path={PATH.signup} element={<SignUpPage />} />
             <Route path={PATH.resetPassword} element={<ResetPasswordPage />} />
           </Route>
-          <Route element={<PrivateRouter redirect={PATH.signin} user={user} />}>
+          <Route element={<PrivateRouter redirect={PATH.signin} />}>
             <Route path={PATH.profile.index} element={<ProfileLayout />}>
               <Route index element={<ProfilePage />} />
               <Route path={PATH.profile.course} element={<MyCourse />} />

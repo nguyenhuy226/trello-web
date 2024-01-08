@@ -24,10 +24,10 @@ import SignInPage from "./pages/signin";
 import SignUpPage from "./pages/signup";
 import TeamPage from "./pages/team";
 
-export const routes = (user, login, logout) => {
+export const routes = (user, login) => {
   return [
     {
-      element: <MainLayout user={user} login={login} logout={logout} />,
+      element: <MainLayout user={user} />,
       childrent: [
         {
           element: <HomePage />,
