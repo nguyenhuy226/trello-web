@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const useScrollToTop = (dependencyList = []) => {
+export const useScrollToTop = (dependencyList = undefined) => {
   useEffect(() => {
     window.scroll({
       top: 0,
