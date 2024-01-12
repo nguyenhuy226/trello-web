@@ -10,4 +10,7 @@ export const userService = {
   resendEmail(data) {
     return api.post(`${USER_API}/resend-email`, data);
   },
+  updateInfo(data) {
+    return api.patch(`${USER_API}`, data);
+  },
 };

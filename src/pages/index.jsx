@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { courseServer } from "../services/course";
 import CourseCard, { CourseCardLoading } from "../components/CourseCard";
 import { useFetch } from "../hooks/useFetch";
+import Modal from "../components/Modal";
 
 export default function HomePage() {
+  const [isOpenVideoModal, setIsOpenVideoModal] = useState(false);
   const { data: courses, loading } = useFetch(() =>
     courseServer.getCourse("?limit=6")
   );
@@ -126,7 +128,10 @@ export default function HomePage() {
                     src="https://svtech.com.vn/wp-content/uploads/2020/07/dexus-office-space.jpg"
                     alt=""
                   />
-                  <div className="play-btn btn-video-intro">
+                  <div
+                    className="play-btn btn-video-intro"
+                    onClick={() => setIsOpenVideoModal(true)}
+                  >
                     <img src="img/play-icon.svg" alt="" />
                   </div>
                 </div>
@@ -138,6 +143,22 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
+              <Modal
+                visbile={isOpenVideoModal}
+                onCancel={() => setIsOpenVideoModal(false)}
+                maskeCloseable
+              >
+                {" "}
+                <iframe
+                  width="800"
+                  height="450"
+                  src="https://www.youtube.com/embed/PBc-OXqqDwc?si=yCGq0XztwCHDfqlR"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </Modal>
               <div className="contentbox col-md-6 col-sm-12 col-xs-12">
                 <div className="item">
                   <h4>Tập trung vào khách hàng</h4>

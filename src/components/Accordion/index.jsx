@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import styled from "styled-components";
 
 const ContentWrap = styled.div`
@@ -45,19 +45,19 @@ Accordion.Group = ({ children }) => {
   );
 };
 
-export default function Accordion2({ date, title, children, active, onClick }) {
-  return (
-    <div className="accordion">
-      <div className="accordion__title" onClick={onClick}>
-        {date && <div className="date">Ngày {date}</div>}
-        <h3>{title}</h3>
-      </div>
-      {active && (
-        <ContentWrap
-          className="content"
-          dangerouslySetInnerHTML={{ __html: children }}
-        />
-      )}
-    </div>
-  );
-}
+// export default function Accordion2({ date, title, children, active, onClick }) {
+//   return (
+//     <div className="accordion">
+//       <div className="accordion__title" onClick={onClick}>
+//         {date && <div className="date">Ngày {date}</div>}
+//         <h3>{title}</h3>
+//       </div>
+//       {active && (
+//         <ContentWrap
+//           className="content"
+//           dangerouslySetInnerHTML={{ __html: children }}
+//         />
+//       )}
+//     </div>
+//   );
+// }

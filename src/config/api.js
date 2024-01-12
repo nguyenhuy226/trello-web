@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getToken } from "../utils/token";
+import { getToken, setToken } from "../utils/token";
+import { authService } from "../services/auth";
 
 export const COURSE_API = import.meta.env.VITE_COURSE_API;
 export const ORGANIZATION_API = import.meta.env.VITE_ORGANIZATION_API;
@@ -12,7 +13,24 @@ api.interceptors.response.use(
   (res) => {
     return res.data;
   },
-  (err) => {
+  async (err) => {
+    try {
+      if (
+        err.response.status === 403 &&
+        err.response.data.error_code === "TOKEN_EXPIRED"
+      ) {
+        console.log("refesh token");
+
+        //refreshToken:
+        const token = getToken();
+        const res = await authService.refreshToken({
+          refreshToken: token.refreshToken,
+        });
+        setToken(res.data);
+        // thực hiện lại api lỗi
+        return api(err.config);
+      }
+    } catch (error) {}
     throw err;
   }
 );
