@@ -35,16 +35,19 @@ export const AuthProvider = ({ children }) => {
       const res = await authService.login(data);
       if (res.data) {
         setToken(res.data);
-        const user = await userService.getProfile();
-        _setUser(user.data);
-        message.success("Đăng nhập tài khoản thành công");
-        navigate(PATH.profile.index);
+        await getProfile();
       }
     } catch (err) {
       if (err?.response?.data?.message) {
         message.error(err?.response?.data?.message);
       }
     }
+  };
+  const getProfile = async () => {
+    const user = await userService.getProfile();
+    _setUser(user.data);
+    message.success("Đăng nhập tài khoản thành công");
+    navigate(PATH.profile.index);
   };
   const logout = () => {
     clearToken();
@@ -53,7 +56,9 @@ export const AuthProvider = ({ children }) => {
     message.success("Đăng xuất tài khoàn thành công");
   };
   return (
-    <AuthContext.Provider value={{ user, login, logout, setUser: _setUser }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, setUser: _setUser, getProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { courseServer } from "../services/course";
 import CourseCard, { CourseCardLoading } from "../components/CourseCard";
 import { useFetch } from "../hooks/useFetch";
