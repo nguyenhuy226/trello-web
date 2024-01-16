@@ -6,8 +6,12 @@ import { useParams } from "react-router-dom";
 import { courseServer } from "../../services/course";
 import { useFetch } from "../../hooks/useFetch";
 import Skeleton from "../../components/Skeleton";
+import { useScrollToTop } from "../../hooks/useScrollToTop";
 
 export default function RegisterPage() {
+  const { slugId } = useParams();
+  const id = slugId.split("-").pop();
+  useScrollToTop(id);
   const { data, loading } = useFetch(() => courseServer.getCourseDetail(id));
   const { register, validate, values } = useForm({
     name: [required("Xin vui lòng nhập họ và tên")],
@@ -36,9 +40,6 @@ export default function RegisterPage() {
       console.log("validate thất bại");
     }
   };
-
-  const { slugId } = useParams();
-  const id = slugId.split("-").pop();
 
   if (loading)
     return (
