@@ -1,32 +1,31 @@
-import { Route, Routes, useRoutes } from "react-router-dom";
-import ContactPage from "./pages/contact";
-// import { Form } from 'react-router-dom'
-import CoursePage from "./pages/course";
-import HomePage from "./pages";
-import TeamPage from "./pages/team";
-import ProjectPage from "./pages/project";
-import FAQPage from "./pages/faq";
-import PaymentPage from "./pages/payment";
-import CoinPage from "./pages/coin";
-import SignInPage from "./pages/signin";
-import SignUpPage from "./pages/signup";
-import ResetPasswordPage from "./pages/reset-password";
-import Page404 from "./pages/404";
-import ProfilePage from "./pages/profile";
-import ProfileLayout from "./layouts/ProfileLayout";
-import MyCourse from "./pages/profile/course";
-import MyCoin from "./pages/profile/coin";
-import MyProject from "./pages/profile/project";
-import Payment from "./pages/profile/payment";
-import OldCourse from "./pages/profile/old-course";
-import MainLayout from "./layouts/MainLayout";
+import { Suspense, lazy } from "react";
+import { Route, Routes } from "react-router-dom";
 import { PATH } from "./config/path";
-import CourseDetail from "./pages/course/[slug]";
-import RegisterPage from "./pages/register/[slug]id[id]";
-import { useEffect, useState } from "react";
-import PrivateRouter from "./components/PrivateRouter";
-import AuthRouter from "./components/AuthRouter";
-import { routes } from "./routes";
+const ContactPage = lazy(() => import("./pages/contact"));
+const CoursePage = lazy(() => import("./pages/course"));
+const HomePage = lazy(() => import("./pages"));
+const TeamPage = lazy(() => import("./pages/team"));
+const ProjectPage = lazy(() => import("./pages/project"));
+const FAQPage = lazy(() => import("./pages/faq"));
+const PaymentPage = lazy(() => import("./pages/payment"));
+const CoinPage = lazy(() => import("./pages/coin"));
+const SignInPage = lazy(() => import("./pages/signin"));
+const SignUpPage = lazy(() => import("./pages/signup"));
+const ResetPasswordPage = lazy(() => import("./pages/reset-password"));
+const Page404 = lazy(() => import("./pages/404"));
+const ProfilePage = lazy(() => import("./pages/profile"));
+const ProfileLayout = lazy(() => import("./layouts/ProfileLayout"));
+const MyCourse = lazy(() => import("./pages/profile/course"));
+const MyCoin = lazy(() => import("./pages/profile/coin"));
+const MyProject = lazy(() => import("./pages/profile/project"));
+const Payment = lazy(() => import("./pages/profile/payment"));
+const OldCourse = lazy(() => import("./pages/profile/old-course"));
+const MainLayout = lazy(() => import("./layouts/MainLayout"));
+const CourseDetail = lazy(() => import("./pages/course/[slug]"));
+const RegisterPage = lazy(() => import("./pages/register/[slug]id[id]"));
+const PrivateRouter = lazy(() => import("./components/PrivateRouter"));
+const AuthRouter = lazy(() => import("./components/AuthRouter"));
+
 import "./assets/css/custom.css";
 
 function App() {
@@ -53,7 +52,7 @@ function App() {
   // sử dụng hook useRoutes trong react-router-dom
   // const element = useRoutes(routes(user, login, logout));
   return (
-    <>
+    <Suspense fallback={<div>Loading.....</div>}>
       {/* {element} */}
       <Routes>
         <Route element={<MainLayout />}>
@@ -87,7 +86,7 @@ function App() {
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>
-    </>
+    </Suspense>
   );
 }
 

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { NavLink, Outlet, Navigate } from "react-router-dom";
 import { PATH } from "../config/path";
 import { useAuth } from "../components/AuthContext";
+import avatar from "../assets/img/anh-avatar-trang-nen-den.webp";
 
 export default function ProfileLayout() {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ export default function ProfileLayout() {
           <div className="top-info">
             <div className="avatar">
               {/* <span class="text">H</span> */}
-              <img src="/img/avt.png" alt="" />
+              <img src={user.avatar || avatar} alt="" />
               <div className="camera" />
             </div>
             <div className="name">{user.name}</div>
@@ -33,7 +34,9 @@ export default function ProfileLayout() {
                 <NavLink to={PATH.profile.oldCourse}>Khóa học đã xem</NavLink>
               </div>
               <div className="tab-content">
-                <Outlet />
+                <Suspense fallback={<div>Loading Profile...</div>}>
+                  <Outlet />
+                </Suspense>
               </div>
             </div>
           </div>

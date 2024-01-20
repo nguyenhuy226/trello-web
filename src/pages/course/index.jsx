@@ -80,13 +80,13 @@ export default function CoursePage() {
             <a href="#" className="prev">
               Trang trước
             </a>
-            <a href="#" className="item">
+            <a href="#" className="item active">
               1
             </a>
             <a href="#" className="item">
               2
             </a>
-            <a href="#" className="item active">
+            <a href="#" className="item ">
               3
             </a>
             <a href="#" className="item">

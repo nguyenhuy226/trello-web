@@ -20,7 +20,6 @@ api.interceptors.response.use(
         err.response.data.error_code === "TOKEN_EXPIRED"
       ) {
         console.log("refesh token");
-
         //refreshToken:
         const token = getToken();
         const res = await authService.refreshToken({

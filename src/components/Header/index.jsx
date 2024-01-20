@@ -2,18 +2,44 @@ import React, { useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { PATH } from "../../config/path";
 import { useAuth } from "../AuthContext";
+import avatar from "../../assets/img/anh-avatar-trang-nen-den.webp";
 
 export default function Header() {
+  useEffect(() => {
+    // $(".menu-hambeger").on("click", function () {
+    //   $("body").toggleClass("menu-is-show");
+    // });
+
+    $("#header nav ul").on("click", function (e) {
+      e.stopPropagation();
+    });
+    // $(".overlay_nav").on("click", function (e) {
+    //   $("body").removeClass("menu-is-show");
+    // });
+    $(document).keyup(function (e) {
+      if (e.key === "Escape") {
+        $("body").removeClass("menu-is-show");
+      }
+    });
+  }, []);
   const { user, logout } = useAuth();
   const _logout = (ev) => {
     ev.preventDefault();
     logout();
   };
+  const closeNavByMenu = () => {
+    $("body").removeClass("menu-is-show");
+  };
   return (
     <>
       <header id="header">
         <div className="wrap">
-          <div className="menu-hambeger">
+          <div
+            className="menu-hambeger"
+            onClick={() => {
+              $("body").toggleClass("menu-is-show");
+            }}
+          >
             <div className="button">
               <span />
               <span />
@@ -32,7 +58,7 @@ export default function Header() {
                   <Link to={PATH.profile.index} className="info">
                     <div className="name">{user.name}</div>
                     <div className="avatar">
-                      <img src="/img/avt.png" alt="" />
+                      <img src={user.avatar || avatar} alt="" />
                     </div>
                   </Link>
                 </div>
@@ -61,35 +87,42 @@ export default function Header() {
       </header>
       <nav className="nav">
         <ul>
-          <li>
+          <li onClick={closeNavByMenu}>
             <Link to={PATH.signin}>Đăng ký / Đăng nhập</Link>
           </li>
-          <li>
-            <NavLink to={PATH.profile.index} className="account">
-              <div className="avatar">
-                <img src="/img/avt.png" alt="" />
-              </div>
-              <div className="name">Đặng Thuyền Vương</div>
-            </NavLink>
-          </li>
-          <li>
+          {user && (
+            <li onClick={closeNavByMenu}>
+              <NavLink to={PATH.profile.index} className="account">
+                <div className="avatar">
+                  <img src={user.avatar || avatar} alt="" />
+                </div>
+                <div className="name">{user.name}</div>
+              </NavLink>
+            </li>
+          )}
+          <li onClick={closeNavByMenu}>
             <NavLink to={PATH.home}>Trang chủ</NavLink>
           </li>
-          <li>
+          <li onClick={closeNavByMenu}>
             <NavLink to={PATH.team}>Spacedev Team</NavLink>
           </li>
-          <li>
+          <li onClick={closeNavByMenu}>
             <NavLink to={PATH.course}>Khóa Học</NavLink>
           </li>
-          <li>
+          <li onClick={closeNavByMenu}>
             <NavLink to={PATH.project}>Dự Án</NavLink>
           </li>
-          <li>
+          <li onClick={closeNavByMenu}>
             <NavLink to={PATH.contact}>Liên hệ</NavLink>
           </li>
         </ul>
       </nav>
-      <div className="overlay_nav" />
+      <div
+        className="overlay_nav"
+        onClick={(e) => {
+          $("body").removeClass("menu-is-show");
+        }}
+      />
     </>
   );
 }

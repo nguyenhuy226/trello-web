@@ -83,8 +83,12 @@ export default function ResetPasswordPage() {
             </Button>
           </div>
         ) : isSuccess ? (
-          <div>
-            <h1>Gửi Email lấy lại mật khẩu thành công!</h1>
+          <div
+            style={{ textAlign: "center", paddingTop: 60, paddingBottom: 60 }}
+          >
+            <h1 style={{ paddingBottom: 20, fontWeight: 600, fontSize: 22 }}>
+              Gửi Email lấy lại mật khẩu thành công!
+            </h1>
             <p>
               Chúng tôi đã gửi cho bạn email lấy lại mật khẩu, xin vui lòng kiểm
               tra email

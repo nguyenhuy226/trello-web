@@ -1,43 +1,78 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { regexp, required, validate } from "../../utils/Validate";
 import Field from "../../components/Field";
 import { useForm } from "../../hooks/useForm";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { courseServer } from "../../services/course";
 import { useFetch } from "../../hooks/useFetch";
 import Skeleton from "../../components/Skeleton";
 import { useScrollToTop } from "../../hooks/useScrollToTop";
+import { Select } from "../../components/Select";
+import { Checkbox } from "../../components/Checkbox";
+import { useAuth } from "../../components/AuthContext";
+import { message } from "antd";
+import { PATH } from "../../config/path";
+import { useAsync } from "../../hooks/useAsync";
+import Button from "../../components/Button";
+import { handlError } from "../../utils/hanldeError";
 
 export default function RegisterPage() {
   const { slugId } = useParams();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const id = slugId.split("-").pop();
+  const { excute: courseRegisterService, loading: registerLoading } = useAsync(
+    courseServer.register
+  );
   useScrollToTop(id);
-  const { data, loading } = useFetch(() => courseServer.getCourseDetail(id));
-  const { register, validate, values } = useForm({
-    name: [required("Xin vui lòng nhập họ và tên")],
-    email: [
-      required("Xin vui lòng nhập email"),
-      regexp("email", "Xin vui lòng nhập đúng địa chỉ email"),
-    ],
-    phone: [
-      required("Xin vui lòng nhập số điện thoại"),
-      regexp("phone", "Xin vui lòng nhập đúng số điện thoại"),
-    ],
-    fb: [
-      required("Xin vui lòng nhập facebook"),
-      regexp(
-        /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/,
-        "Xin vui lòng nhập đúng url facbook của bạn"
-      ),
-    ],
+  useEffect(() => {
+    if (!user) {
+      message.warning("Vui lòng đăng nhập trước khi đăng ký khóa học");
+      navigate(PATH.signin, { state: { redirect: pathname } });
+    }
   });
+
+  const { data, loading } = useFetch(() => courseServer.getCourseDetail(id));
+  const { register, validate, values } = useForm(
+    {
+      name: [required("Xin vui lòng nhập họ và tên")],
+      email: [
+        required("Xin vui lòng nhập email"),
+        regexp("email", "Xin vui lòng nhập đúng địa chỉ email"),
+      ],
+      phone: [
+        required("Xin vui lòng nhập số điện thoại"),
+        regexp("phone", "Xin vui lòng nhập đúng số điện thoại"),
+      ],
+      fb: [
+        required("Xin vui lòng nhập facebook"),
+        regexp(
+          /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/,
+          "Xin vui lòng nhập đúng url facbook của bạn"
+        ),
+      ],
+      payment: [required("Xin vui lòng chọn hình thức thanh toán")],
+      // COIN: [required()],
+    },
+    {
+      email: user?.username,
+      name: user?.name,
+      fb: user?.fb,
+      phone: user?.phone,
+    }
+  );
   const [isSuccess, setIsSuccess] = useState(false);
-  const onSubmit = () => {
-    if (validate()) {
-      console.log("validate thành công");
-      setIsSuccess(true);
-    } else {
-      console.log("validate thất bại");
+  const onSubmit = async () => {
+    try {
+      if (validate()) {
+        await courseRegisterService(id, values);
+        setIsSuccess(true);
+      } else {
+        console.log("validate thất bại");
+      }
+    } catch (error) {
+      handlError(error);
     }
   };
 
@@ -104,13 +139,20 @@ export default function RegisterPage() {
               <Field
                 label="Hình thức thanh toán"
                 renderInput={(props) => (
-                  <div className="select">
-                    <div className="head">Chuyển khoản</div>
-                    <div className="sub">
-                      <a href="#">Chuyển khoản</a>
-                      <a href="#">Thanh toán tiền mặt</a>
-                    </div>
-                  </div>
+                  <Select
+                    placeholder="Hình thức thanh toán"
+                    options={[
+                      {
+                        value: "chuyen-khoan",
+                        label: "chuyển khoản",
+                      },
+                      {
+                        value: "thanh-toan-tien-mat",
+                        label: "thanh toán tiền mặt",
+                      },
+                    ]}
+                    {...props}
+                  />
                 )}
                 {...register("payment")}
               />
@@ -147,9 +189,9 @@ export default function RegisterPage() {
               điện thoại của bạn.
             </p>
           </div>
-          <a href="/" className="btn main rect">
-            về trang chủ
-          </a>
+          <Link to={PATH.profile.course} className="btn main rect">
+            về trang khóa học của tôi
+          </Link>
         </div>
       ) : (
         <section className="register-course">
@@ -185,6 +227,7 @@ export default function RegisterPage() {
                   label="Email"
                   placeholder="Địa chỉ email"
                   required
+                  disabled
                   {...register("email")}
                 />
                 <Field
@@ -197,36 +240,39 @@ export default function RegisterPage() {
                   label="Sử dụng COIN"
                   {...register("COIN")}
                   renderInput={(props) => (
-                    <div className="checkcontainer">
+                    <Checkbox {...props}>
                       Hiện có <strong>300 COIN</strong>
-                      {/* Giảm giá còn <span><strong>5.800.000 VND</strong>, còn lại 100 COIN</span> */}
-                      {/* Cần ít nhất 200 COIN để giảm giá */}
-                      <input type="checkbox" {...props} />
-                      <span className="checkmark" />
-                    </div>
+                    </Checkbox>
                   )}
                 />
                 <Field
+                  {...register("payment")}
                   label="Hình thức thanh toán"
                   renderInput={(props) => (
-                    <div className="select">
-                      <div className="head">Chuyển khoản</div>
-                      <div className="sub">
-                        <a href="#">Chuyển khoản</a>
-                        <a href="#">Thanh toán tiền mặt</a>
-                      </div>
-                    </div>
+                    <Select
+                      placeholder="Hình thức thanh toán"
+                      options={[
+                        {
+                          value: "chuyen-khoan",
+                          label: "chuyển khoản",
+                        },
+                        {
+                          value: "thanh-toan-tien-mat",
+                          label: "thanh toán tiền mặt",
+                        },
+                      ]}
+                      {...props}
+                    />
                   )}
-                  {...register("payment")}
                 />
                 <Field
                   placeholder="Mong muốn cá nhân và lịch bạn có thể học."
                   label="Ý kiến cá nhân"
                   {...register("note")}
                 />
-                <button onClick={onSubmit} className="btn main rect">
+                <Button loading={registerLoading} onClick={onSubmit}>
                   đăng ký
-                </button>
+                </Button>
               </div>
             </div>
           </div>

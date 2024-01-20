@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { authService } from "../../services/auth";
 import { message } from "antd";
 import {
@@ -9,7 +16,7 @@ import {
   setUser,
 } from "../../utils/token";
 import { userService } from "../../services/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { PATH } from "../../config/path";
 
 const AuthContext = createContext({});
@@ -17,6 +24,7 @@ const AuthContext = createContext({});
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
+  const { state } = useLocation();
   const [user, _setUser] = useState(() => {
     try {
       return getUser();
@@ -30,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  const login = async (data) => {
+  const login = useCallback(async (data) => {
     try {
       const res = await authService.login(data);
       if (res.data) {
@@ -42,24 +50,26 @@ export const AuthProvider = ({ children }) => {
         message.error(err?.response?.data?.message);
       }
     }
-  };
-  const getProfile = async () => {
+  }, []);
+  const getProfile = useCallback(async () => {
     const user = await userService.getProfile();
     _setUser(user.data);
     message.success("Đăng nhập tài khoản thành công");
-    navigate(PATH.profile.index);
-  };
-  const logout = () => {
+    if (state?.redirect) {
+      navigate(state.redirect);
+    } else {
+      navigate(PATH.profile.index);
+    }
+  }, []);
+  const logout = useCallback(() => {
     clearToken();
     clearUser();
     _setUser(null);
     message.success("Đăng xuất tài khoàn thành công");
-  };
-  return (
-    <AuthContext.Provider
-      value={{ user, login, logout, setUser: _setUser, getProfile }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  }, []);
+
+  const value = useMemo(() => {
+    return { user, login, logout, setUser: _setUser, getProfile };
+  }, [user, login, logout, _setUser, getProfile]);
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
