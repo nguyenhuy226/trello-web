@@ -5,9 +5,11 @@ import { useFetch } from "../hooks/useFetch";
 import Modal from "../components/Modal";
 import Testimonal from "../components/Testimonal";
 import TeamGallery from "../components/TeamGallery";
+import { useQuery } from "../hooks/useQuery";
 
 export default function HomePage() {
   useEffect(() => {
+    // localStorage.removeItem("TO_DO_APP");
     $(".slider").flickity({
       contain: true,
       wrapAround: false,
@@ -18,9 +20,14 @@ export default function HomePage() {
     });
   }, []);
   const [isOpenVideoModal, setIsOpenVideoModal] = useState(false);
-  const { data: courses, loading } = useFetch(() =>
-    courseServer.getCourse("?limit=6")
-  );
+  // const { data: courses, loading } = useFetch(() =>
+  //   courseServer.getCourse("?limit=6")
+  // );
+  const { data: { data: courses = [] } = {}, loading } = useQuery({
+    queryFn: () => courseServer.getCourse("?limit=6"),
+    queryKey: "courses",
+    cacheTime: 10000,
+  });
   // const [loading, setLoading] = useState(true);
   // const [courses, setCourses] = useState([]);
   // useEffect(() => {
@@ -119,7 +126,7 @@ export default function HomePage() {
                 ? Array.from(Array(6)).map((_, i) => (
                     <CourseCardLoading key={i} />
                   ))
-                : courses.data.map((e) => <CourseCard key={e.id} {...e} />)}
+                : courses?.map((e) => <CourseCard key={e.id} {...e} />)}
             </div>
             <div className="flex justify-center">
               <a href="./course-list.html" className="btn main">

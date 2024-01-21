@@ -11,6 +11,7 @@ import moment from "moment";
 import { Teacher } from "../../components/Teacher";
 import Page404 from "../404";
 import Modal from "../../components/Modal";
+import { useQuery } from "../../hooks/useQuery";
 
 export default function CourseDetail() {
   const [isOpenVideoModal, setIsOpenVideoModal] = useState(false);
@@ -18,12 +19,30 @@ export default function CourseDetail() {
   const { slugId } = useParams();
   const id = slugId.split("-").pop();
   useScrollToTop(id);
-  const { data, loading } = useFetch(
-    () => courseServer.getCourseDetail(id),
-    [id]
-  );
-  const { data: related } = useFetch(() => courseServer.getRelative(id), [id]);
+  // const { data, loading } = useFetch(
+  //   () => courseServer.getCourseDetail(id),
+  //   [id]
+  // );
+  const { data: { data: detail } = {}, loading } = useQuery({
+    queryFn: () => courseServer.getCourseDetail(id),
+    queryKey: `course_${id}`,
+    storeDriver: "sessionStorage",
+  });
 
+  // const { data: related } = useFetch(() => courseServer.getRelative(id), [id]);
+  const { data: { data: related } = {} } = useQuery({
+    queryFn: () => courseServer.getRelative(id),
+    queryKey: `course_related_${id}`,
+    storeDriver: "sessionStorage",
+    dependencyList: [id],
+  });
+  const { openingTime } = useMemo(() => {
+    if (detail) {
+      const openingTime = moment(detail?.opening_time).format("DD/MM/YYYY");
+      return openingTime;
+    }
+    return {};
+  }, [detail]);
   if (loading) {
     return (
       <main id="main">
@@ -69,25 +88,17 @@ export default function CourseDetail() {
     );
   }
   {
-    const { data: detail } = data;
-    // const { openingTime } = useMemo(() => {
-    //   if (detail) {
-    const openingTime = moment(detail.opening_time).format("DD/MM/YYYY");
-    //     return openingTime;
-    //   }
-    //   return {};
-    // }, [detail]);
     if (!detail) return <Page404 />;
     return (
       <main id="main">
         <div className="course-detail">
           <section
             className="banner style2"
-            style={{ "--background": detail.template_color_btn || "#cde6fb" }}
+            style={{ "--background": detail?.template_color_btn || "#cde6fb" }}
           >
             <div className="container">
               <div className="info">
-                <h1>{detail.title}</h1>
+                <h1>{detail?.title}</h1>
                 <div className="row">
                   <div className="date">
                     <strong>Khai giảng:</strong>
@@ -100,9 +111,9 @@ export default function CourseDetail() {
                 <Link
                   className="btn white round"
                   style={{
-                    "--color-Btn": detail.template_color_banner || "#70b6f1",
+                    "--color-Btn": detail?.template_color_banner || "#70b6f1",
                   }}
-                  to={`/register/${detail.slug}-${detail.id}`}
+                  to={`/register/${detail?.slug}-${detail?.id}`}
                 >
                   đăng ký
                 </Link>
@@ -119,7 +130,7 @@ export default function CourseDetail() {
                   </div>{" "}
                   <span>giới thiệu</span>
                 </div>
-                <div className="money">{detail.money} VND</div>
+                <div className="money">{detail?.money} VND</div>
               </div>
             </div>
             <Modal
@@ -147,7 +158,7 @@ export default function CourseDetail() {
               </div>
               <h3 className="title">nội dung khóa học</h3>
               <Accordion.Group>
-                {detail.content.map((e, i) => (
+                {detail?.content.map((e, i) => (
                   <Accordion key={i} {...e} date={i + 1}>
                     {e.content}
                   </Accordion>
@@ -155,7 +166,7 @@ export default function CourseDetail() {
               </Accordion.Group>
               <h3 className="title">yêu cầu cần có</h3>
               <div className="row row-check">
-                {detail.required.map((e, i) => (
+                {detail?.required.map((e, i) => (
                   <div key={i} className="col-md-6">
                     {e.content}
                   </div>
@@ -163,7 +174,7 @@ export default function CourseDetail() {
               </div>
               <h3 className="title">hình thức học</h3>
               <div className="row row-check">
-                {detail.benefits.map((e, i) => (
+                {detail?.benefits.map((e, i) => (
                   <div key={i} className="col-md-6">
                     {e.content}
                   </div>
@@ -190,7 +201,7 @@ export default function CourseDetail() {
                 <>
                   <h3 className="title">Người hướng dẫn</h3>
                   <div className="teachers">
-                    {detail.mentor.map((e) => (
+                    {detail?.mentor.map((e) => (
                       <Teacher key={e.id} {...e} />
                     ))}
                   </div>
@@ -203,7 +214,7 @@ export default function CourseDetail() {
                 </div>
                 <Link
                   className="btn main btn-register round"
-                  to={`/register/${detail.slug}-${detail.id}`}
+                  to={`/register/${detail?.slug}-${detail?.id}`}
                 >
                   đăng ký
                 </Link>
@@ -221,7 +232,7 @@ export default function CourseDetail() {
               </div>
               <div className="list row">
                 {related &&
-                  related?.data.map((e) => <CourseCard key={e.id} {...e} />)}
+                  related?.map((e) => <CourseCard key={e.id} {...e} />)}
               </div>
             </div>
           </section>

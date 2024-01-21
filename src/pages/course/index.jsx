@@ -2,36 +2,15 @@ import React, { useEffect, useState } from "react";
 import { courseServer } from "../../services/course";
 import CourseCard, { CourseCardLoading } from "../../components/CourseCard";
 import { useFetch } from "../../hooks/useFetch";
+import { useQuery } from "../../hooks/useQuery";
 
 export default function CoursePage() {
-  const { data: courses, loading } = useFetch(() => courseServer.getCourse());
-
-  // const [loading, setLoading] = useState(false);
-  // const [courses, setCourses] = useState([]);
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   courseServer
-  //     .getCourse()
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setCourses(data.data);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  //   //cách làm bằng async await và có sử dụng try catch để bắt lỗi ==> khi dùng async await trong useEfect thì phải chạy trong hàm chạy liền
-  //   // (async () => {
-  //   //   try {
-  //   //     setLoading(true)
-  //   //     let res = await courseServer.getCourse()
-  //   //     res = await res.json()
-  //   //     setCourses(res.data)
-  //   //   } finally {
-  //   //     setLoading(false)
-  //   //   }
-  //   // })()
-  // }, []);
+  // const { data: courses, loading } = useFetch(() => courseServer.getCourse());
+  const { data: { data: courses = [] } = {}, loading } = useQuery({
+    queryFn: () => courseServer.getCourse(),
+    queryKey: "courses_list",
+    cacheTime: 10000,
+  });
   return (
     <section className="section-1">
       <div className="container">
@@ -73,7 +52,7 @@ export default function CoursePage() {
         <div className="list row">
           {loading
             ? Array.from(Array(6)).map((_, i) => <CourseCardLoading key={i} />)
-            : courses.data.map((e) => <CourseCard key={e.id} {...e} />)}
+            : courses?.map((e) => <CourseCard key={e.id} {...e} />)}
         </div>
         <div className="flex justify-end mt-10">
           <div className="paginate">
