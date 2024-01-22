@@ -1,8 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { courseServer } from "../../services/course";
-import { PATH } from "../../config/path";
-import { useFetch } from "../../hooks/useFetch";
 import CourseCard from "../../components/CourseCard";
 import { useScrollToTop } from "../../hooks/useScrollToTop";
 import Skeleton from "../../components/Skeleton";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { regexp, required, validate } from "../../utils/Validate";
+import { regexp, required } from "../../utils/validate";
 import Field from "../../components/Field";
 import { useForm } from "../../hooks/useForm";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";

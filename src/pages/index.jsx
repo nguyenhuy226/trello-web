@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { courseServer } from "../services/course";
 import CourseCard, { CourseCardLoading } from "../components/CourseCard";
-import { useFetch } from "../hooks/useFetch";
 import Modal from "../components/Modal";
 import Testimonal from "../components/Testimonal";
 import TeamGallery from "../components/TeamGallery";

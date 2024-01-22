@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Field from "../components/Field";
-import { regexp, required } from "../utils/Validate";
+import { regexp, required } from "../utils/validate";
 import { useForm } from "../hooks/useForm";
 import { organizationService } from "../services/organization.service";
 import { message } from "antd";

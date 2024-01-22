@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PATH } from "../config/path";
 import { useForm } from "../hooks/useForm";
-import { regexp, required } from "../utils/Validate";
+import { regexp, required } from "../utils/validate";
 import { useAuth } from "../components/AuthContext";
 import Input from "../components/Input";
 import { useAsync } from "../hooks/useAsync";

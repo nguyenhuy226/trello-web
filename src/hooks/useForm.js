@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { validate } from "../utils/Validate";
+import { validate } from "../utils/validate";
 
 export const useForm = (rules, initialValues = {}) => {
   const [values, setValues] = useState(initialValues);

@@ -3,7 +3,7 @@ import { useAsync } from "../../hooks/useAsync";
 import { userService } from "../../services/user";
 import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../../components/AuthContext";
-import { regexp, required } from "../../utils/Validate";
+import { regexp, required } from "../../utils/validate";
 import Field from "../../components/Field";
 import Button from "../../components/Button";
 import { message } from "antd";

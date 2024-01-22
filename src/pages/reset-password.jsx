@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "../hooks/useForm";
 import { useAsync } from "../hooks/useAsync";
 import { userService } from "../services/user";
-import { confirm, regexp, required } from "../utils/Validate";
+import { confirm, regexp, required } from "../utils/validate";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { handlError } from "../utils/hanldeError";
