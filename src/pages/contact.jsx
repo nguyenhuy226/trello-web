@@ -6,6 +6,7 @@ import { organizationService } from "../services/organization.service";
 import { message } from "antd";
 import Button from "../components/Button";
 import { useAsync } from "../hooks/useAsync";
+import { handlError } from "../utils/hanldeError";
 
 export default function ContactPage() {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -38,7 +39,9 @@ export default function ContactPage() {
           setIsSuccess(true);
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      handlError(error);
+    }
   };
 
   return (
